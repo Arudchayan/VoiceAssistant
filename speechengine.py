@@ -54,7 +54,7 @@ def take_user_input():
     try:
         print('Recognizing...')
         query = r.recognize_google(audio, language='en-in')
-        if not 'exit' in query or 'stop' in query:
+        if 'exit' not in query and 'stop' not in query:
             speak(choice(opening_text))
         else:
             hour = datetime.now().hour

@@ -2,11 +2,12 @@ import requests
 from commands import *
 from speechengine import *
 from pprint import pprint
+from llm import generate_response
 
 
 if __name__ == '__main__':
     greet_user()
-    boolean = True;
+    boolean = True
     while boolean:
         query = take_user_input().lower()
 
@@ -83,15 +84,17 @@ if __name__ == '__main__':
             pprint(advice)
 
         elif "trending movies" in query:
-            speak(f"Some of the trending movies are: {get_trending_movies()}")
+            movies = get_trending_movies()
+            speak(f"Some of the trending movies are: {movies}")
             speak("For your convenience, I am printing it on the screen sir.")
-            print(*get_trending_movies(), sep='\n')
+            print(*movies, sep='\n')
 
         elif 'news' in query:
-            speak(f"I'm reading out the latest news headlines, sir")
-            speak(get_latest_news())
+            speak("I'm reading out the latest news headlines, sir")
+            headlines = get_latest_news()
+            speak(headlines)
             speak("For your convenience, I am printing it on the screen sir.")
-            print(*get_latest_news(), sep='\n')
+            print(*headlines, sep='\n')
 
         elif 'weather' in query:
             ip_address = find_my_ip()
@@ -124,5 +127,9 @@ if __name__ == '__main__':
                 if 'stop' in query:
                     break
                 speak(query)
+
+        else:
+            response = generate_response(query)
+            speak(response)
 
             

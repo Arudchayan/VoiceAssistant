@@ -7,6 +7,8 @@ from email.message import EmailMessage
 import smtplib
 from decouple import config
 
+from typing import List
+
 paths = {
     'notepad': "C:\\Program Files\\Notepad++\\notepad++.exe",
     'discord': "C:\\Users\\ashut\\AppData\\Local\\Discord\\app-1.0.9003\\Discord.exe",
@@ -103,4 +105,17 @@ def get_trending_movies():
     for r in results:
         trending_movies.append(r["original_title"])
     return trending_movies[:5]
+
+
+NEWS_API_KEY = config("NEWS_API_KEY")
+
+
+def get_latest_news() -> List[str]:
+    news_headlines = []
+    res = requests.get(
+        f"https://newsapi.org/v2/top-headlines?country=us&apiKey={NEWS_API_KEY}&pageSize=5"
+    ).json()
+    for article in res.get("articles", []):
+        news_headlines.append(article.get("title"))
+    return news_headlines
 
